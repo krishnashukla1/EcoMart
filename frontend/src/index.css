@@ -1,0 +1,9 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* Your global styles below */
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
