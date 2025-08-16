@@ -42,3 +42,17 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+/*
+PS D:\F26-CART-AMAZON\New Project> git add .                                                              
+PS D:\F26-CART-AMAZON\New Project> git commit -m "first commit"
+PS D:\F26-CART-AMAZON\New Project> git push -u origin main
+----------------
+
+
+NODE   https://ecomart-5vnc.onrender.com
+
+REACT  https://ecomart-1-1qxk.onrender.com
+
+*/
