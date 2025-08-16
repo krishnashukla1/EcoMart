@@ -92,8 +92,8 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import axios from 'axios'
 import { toast } from 'react-toastify'
+import API from "../utils/api";
 
 const Checkout = () => {
   const [formData, setFormData] = useState({
@@ -154,7 +154,7 @@ const Checkout = () => {
       }))
     };
 
-      const { data } = await axios.post('/api/orders', payload, config)
+      const { data } = await API.post('/api/orders', payload, config)
       toast.success('Order placed successfully!')
 
       if (formData.paymentMethod !== 'COD') {

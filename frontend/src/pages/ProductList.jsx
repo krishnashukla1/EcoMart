@@ -1,8 +1,8 @@
 // FILE: src/pages/ProductList.jsx
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios'
 import ProductCard from '../components/ProductCard'
+import API from "../utils/api";
 
 const ProductList = () => {
   const [products, setProducts] = useState([])
@@ -15,7 +15,7 @@ const ProductList = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get(`/api/products?page=${page}&limit=${limit}&search=${search}`)
+      const { data } = await API.get(`/api/products?page=${page}&limit=${limit}&search=${search}`)
       setProducts(data.products)
       setTotal(data.total)
     }
@@ -25,9 +25,9 @@ const ProductList = () => {
   const pages = Math.ceil(total / limit)
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div className="container p-4 mx-auto">
+      <h1 className="mb-4 text-3xl font-bold">Products</h1>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}

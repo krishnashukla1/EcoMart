@@ -59,8 +59,8 @@
 //--------------------------
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import axios from 'axios'
 import { toast } from 'react-toastify'
+import API from "../utils/api";
 
 const OrderDetails = () => {
   const { id } = useParams()
@@ -75,7 +75,7 @@ const OrderDetails = () => {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
-        const { data } = await axios.get(`/api/orders/${id}`, config)
+        const { data } = await API.get(`/api/orders/${id}`, config)
         setOrder(data)
       } catch (error) {
         toast.error(error.response?.data?.message || 'Error fetching order details')

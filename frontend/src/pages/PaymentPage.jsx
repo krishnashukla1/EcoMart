@@ -1,6 +1,6 @@
 // import { useParams, useNavigate } from "react-router-dom";
 // import { useState, useEffect } from "react";
-// import axios from "axios";
+// import API from "API";
 // import { toast } from "react-toastify";
 
 // export default function PaymentPage() {
@@ -15,7 +15,7 @@
 //         const config = {
 //           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
 //         };
-//         const { data } = await axios.get(`/api/orders/${orderId}`, config);
+//         const { data } = await API.get(`/api/orders/${orderId}`, config);
 //         setOrder(data);
 //       } catch (err) {
 //         toast.error("Failed to load order details");
@@ -36,7 +36,7 @@
 //         currency: "INR",
 //       };
 
-//       const { data } = await axios.post("/api/payments", paymentData, config);
+//       const { data } = await API.post("/api/payments", paymentData, config);
 
 //       if (data.success) {
 //         toast.success("Payment created successfully");
@@ -72,8 +72,9 @@
 //-----------------
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import { toast } from "react-toastify";
+import API from "../utils/api";
 
 export default function PaymentPage() {
   const { orderId } = useParams();
@@ -88,7 +89,7 @@ export default function PaymentPage() {
         const config = {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         };
-        const { data } = await axios.get(`/api/orders/${orderId}`, config);
+        const { data } = await API.get(`/api/orders/${orderId}`, config);
         setOrder(data);
       } catch (err) {
         toast.error("Failed to load order details");
@@ -110,11 +111,11 @@ export default function PaymentPage() {
       };
 
       // 1. Process payment
-      const { data } = await axios.post("/api/payments", paymentData, config);
+      const { data } = await API.post("/api/payments", paymentData, config);
 
       if (data.success) {
         // 2. Update order status to 'Paid'
-        await axios.put(
+        await API.put(
           `/api/orders/${orderId}/status`,
           { status: 'Paid' },
           config

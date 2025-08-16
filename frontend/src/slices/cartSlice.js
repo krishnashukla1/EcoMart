@@ -1,6 +1,6 @@
 // // FILE: src/slices/cartSlice.js
 // import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-// import axios from 'axios'
+// import API from 'API'
 // import { toast } from 'react-toastify'
 
 // const config = {
@@ -17,7 +17,7 @@
 
 // export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
 //   try {
-//     const { data } = await axios.get('/api/cart', config)
+//     const { data } = await API.get('/api/cart', config)
 //     return data.items || []
 //   } catch (error) {
 //     return rejectWithValue(error.response.data.message)
@@ -26,7 +26,7 @@
 
 // export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, qty }, { rejectWithValue }) => {
 //   try {
-//     const { data } = await axios.post('/api/cart', { productId, qty }, config)
+//     const { data } = await API.post('/api/cart', { productId, qty }, config)
 //     toast.success('Added to cart')
 //     return data.items
 //   } catch (error) {
@@ -37,7 +37,7 @@
 
 // export const updateCartItem = createAsyncThunk('cart/updateCartItem', async ({ itemId, qty }, { rejectWithValue }) => {
 //   try {
-//     const { data } = await axios.put(`/api/cart/${itemId}`, { qty }, config)
+//     const { data } = await API.put(`/api/cart/${itemId}`, { qty }, config)
 //     toast.success('Cart updated')
 //     return data.items
 //   } catch (error) {
@@ -48,7 +48,7 @@
 
 // export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (itemId, { rejectWithValue }) => {
 //   try {
-//     const { data } = await axios.delete(`/api/cart/${itemId}`, config)
+//     const { data } = await API.delete(`/api/cart/${itemId}`, config)
 //     toast.success('Removed from cart')
 //     return data.items
 //   } catch (error) {
@@ -59,7 +59,7 @@
 
 // export const clearCart = createAsyncThunk('cart/clearCart', async (_, { rejectWithValue }) => {
 //   try {
-//     await axios.delete('/api/cart', config)
+//     await API.delete('/api/cart', config)
 //     toast.success('Cart cleared')
 //     return []
 //   } catch (error) {
@@ -106,8 +106,9 @@
 
 // FILE: src/slices/cartSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+
 import { toast } from 'react-toastify';
+import API from "../utils/api";
 
 // Helper function to get auth config
 const getConfig = () => ({
@@ -130,7 +131,7 @@ export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get('/api/cart', getConfig());
+      const { data } = await API.get('/api/cart', getConfig());
       
       if (!data.items) return [];
 
@@ -157,7 +158,7 @@ export const fetchCart = createAsyncThunk(
               };
             }
 
-            const { data: product } = await axios.get(
+            const { data: product } = await API.get(
               `/api/products/${productId}`,
               getConfig()
             );
@@ -201,7 +202,7 @@ export const addToCart = createAsyncThunk(
   'cart/addToCart',
   async ({ productId, qty }, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post(
+      const { data } = await API.post(
         '/api/cart',
         { productId, qty },
         getConfig()
@@ -228,7 +229,7 @@ export const updateCartItem = createAsyncThunk(
         return rejectWithValue('Insufficient stock');
       }
 
-      const { data } = await axios.put(
+      const { data } = await API.put(
         `/api/cart/${itemId}`,
         { qty },
         getConfig()
@@ -248,7 +249,7 @@ export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async (itemId, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(
+      const { data } = await API.delete(
         `/api/cart/${itemId}`,
         getConfig()
       );
@@ -267,7 +268,7 @@ export const clearCart = createAsyncThunk(
   'cart/clearCart',
   async (_, { rejectWithValue }) => {
     try {
-      await axios.delete('/api/cart', getConfig());
+      await API.delete('/api/cart', getConfig());
       toast.success('Cart cleared');
       return [];
     } catch (error) {

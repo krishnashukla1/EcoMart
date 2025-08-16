@@ -1,7 +1,7 @@
 // // FILE: src/pages/Orders.jsx
 // import { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
-// import axios from 'axios'
+// import API from 'API'
 
 // const Orders = () => {
 //   const [orders, setOrders] = useState([])
@@ -13,7 +13,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       const { data } = await axios.get('/api/orders', config)
+//       const { data } = await API.get('/api/orders', config)
 //       setOrders(data)
 //     }
 //     fetchOrders()
@@ -57,7 +57,7 @@
 // FILE: src/pages/Orders.jsx
 // import { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
-// import axios from 'axios'
+// import API from 'API'
 // import { toast } from 'react-toastify'
 
 // const Orders = () => {
@@ -71,7 +71,7 @@
 //         },
 //       }
 //       try {
-//         const { data } = await axios.get('/api/orders', config)
+//         const { data } = await API.get('/api/orders', config)
 //         setOrders(data)
 //       } catch (error) {
 //         toast.error(error.response.data.message)
@@ -87,7 +87,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       const { data } = await axios.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
+//       const { data } = await API.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
 //       setOrders(orders.map(order => 
 //         order._id === orderId ? { ...order, status: 'Completed' } : order
 //       ))
@@ -146,7 +146,7 @@
 
 // import { useEffect, useState } from 'react'
 // import { Link, useNavigate } from 'react-router-dom'
-// import axios from 'axios'
+// import API from 'API'
 // import { toast } from 'react-toastify'
 
 // const Orders = () => {
@@ -161,7 +161,7 @@
 //         },
 //       }
 //       try {
-//         const { data } = await axios.get('/api/orders', config)
+//         const { data } = await API.get('/api/orders', config)
 //         setOrders(data)
 //       } catch (error) {
 //         toast.error(error.response?.data?.message || 'Error fetching orders')
@@ -182,7 +182,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       await axios.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
+//       await API.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
 //       setOrders(orders.map(order => 
 //         order._id === orderId ? { ...order, status: 'Completed' } : order
 //       ))
@@ -251,7 +251,7 @@
 
 // import { useEffect, useState } from 'react'
 // import { Link, useNavigate } from 'react-router-dom'
-// import axios from 'axios'
+// import API from 'API'
 // import { toast } from 'react-toastify'
 
 // const Orders = () => {
@@ -266,7 +266,7 @@
 //         },
 //       }
 //       try {
-//         const { data } = await axios.get('/api/orders', config)
+//         const { data } = await API.get('/api/orders', config)
 //         setOrders(data)
 //       } catch (error) {
 //         toast.error(error.response?.data?.message || 'Error fetching orders')
@@ -286,7 +286,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       await axios.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
+//       await API.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
 //       setOrders(orders.map(order => 
 //         order._id === orderId ? { ...order, status: 'Completed' } : order
 //       ))
@@ -305,7 +305,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       await axios.delete(`/api/orders/${orderId}`, config)
+//       await API.delete(`/api/orders/${orderId}`, config)
 //       setOrders(orders.filter(order => order._id !== orderId))
 //       toast.success('Order deleted successfully')
 //     } catch (error) {
@@ -378,7 +378,7 @@
 //--------------------------------
 // import { useEffect, useState } from 'react'
 // import { Link, useNavigate } from 'react-router-dom'
-// import axios from 'axios'
+// import API from 'API'
 // import { toast } from 'react-toastify'
 
 // const Orders = () => {
@@ -393,7 +393,7 @@
 //         },
 //       }
 //       try {
-//         const { data } = await axios.get('/api/orders', config)
+//         const { data } = await API.get('/api/orders', config)
 //         setOrders(data)
 //       } catch (error) {
 //         toast.error(error.response?.data?.message || 'Error fetching orders')
@@ -409,7 +409,7 @@
 //       },
 //     };
 //     try {
-//       const { data } = await axios.get('/api/orders', config);
+//       const { data } = await API.get('/api/orders', config);
 //       setOrders(data);
 //     } catch (error) {
 //       toast.error(error.response?.data?.message || 'Error refreshing orders');
@@ -432,7 +432,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       await axios.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
+//       await API.put(`/api/orders/${orderId}/status`, { status: 'Completed' }, config)
 //       setOrders(orders.map(order => 
 //         order._id === orderId ? { ...order, status: 'Completed' } : order
 //       ))
@@ -451,7 +451,7 @@
 //           Authorization: `Bearer ${localStorage.getItem('token')}`,
 //         },
 //       }
-//       await axios.delete(`/api/orders/${orderId}`, config)
+//       await API.delete(`/api/orders/${orderId}`, config)
 //       setOrders(orders.filter(order => order._id !== orderId))
 //       toast.success('Order deleted successfully')
 //     } catch (error) {
@@ -599,8 +599,9 @@
 
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+
 import { toast } from 'react-toastify';
+import API from "../utils/api";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -614,7 +615,9 @@ const Orders = () => {
       },
     };
     try {
-      const { data } = await axios.get('/api/orders', config);
+      // const { data } = await API.get('/api/orders', config);
+      const { data } = await API.get('/api/orders', config);
+      
       setOrders(data);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error fetching orders');
@@ -654,7 +657,7 @@ const Orders = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       };
-      await axios.put(
+      await API.put(
         `/api/orders/${orderId}/status`, 
         { status: 'Completed' },
         config
@@ -677,7 +680,7 @@ const Orders = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       };
-      await axios.delete(`/api/orders/${orderId}`, config);
+      await API.delete(`/api/orders/${orderId}`, config);
       setOrders(orders.filter(order => order._id !== orderId));
       toast.success('Order deleted successfully');
     } catch (error) {

@@ -2,22 +2,23 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import ProductCard from '../components/ProductCard'
+import API from "../utils/api";
 
 const Home = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get('/api/products?limit=6')
+      const { data } = await API.get('/api/products?limit=6')
       setProducts(data.products)
     }
     fetchProducts()
   }, [])
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Featured Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="container p-4 mx-auto">
+      <h1 className="mb-4 text-3xl font-bold">Featured Products</h1>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {products.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
