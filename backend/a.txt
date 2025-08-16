@@ -471,3 +471,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OWE5MGQ3M
     "message": "Payment status updated (stub). Integrate real gateway."
 }
 ------------------------------------
+
+/*
+PS D:\F26-CART-AMAZON\New Project> git add .                                                              
+PS D:\F26-CART-AMAZON\New Project> git commit -m "first commit"
+PS D:\F26-CART-AMAZON\New Project> git push -u origin main
+----------------
+
+
+NODE   https://ecomart-5vnc.onrender.com
+
+GET https://ecomart-5vnc.onrender.com/api/products
+
+REACT  https://ecomart-1-1qxk.onrender.com
+
+*/

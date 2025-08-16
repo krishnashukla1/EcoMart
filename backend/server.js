@@ -22,7 +22,16 @@ connectDB();
 
 // Middlewares
 app.use(helmet());
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",              // local dev
+    "https://ecomart-1-1qxk.onrender.com" // deployed frontend
+  ],
+  credentials: true,
+}));
+
 app.use(morgan('dev'));
 app.use(compression());
 app.use(express.json());
@@ -44,15 +53,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-/*
-PS D:\F26-CART-AMAZON\New Project> git add .                                                              
-PS D:\F26-CART-AMAZON\New Project> git commit -m "first commit"
-PS D:\F26-CART-AMAZON\New Project> git push -u origin main
-----------------
-
-
-NODE   https://ecomart-5vnc.onrender.com
-
-REACT  https://ecomart-1-1qxk.onrender.com
-
-*/
