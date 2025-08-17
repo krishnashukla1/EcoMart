@@ -25,7 +25,9 @@ const ProductDetails = () => {
   const handleAddToCart = () => {
     if (!userInfo) {
       toast.error('Please login to add to cart')
-      navigate('/login')
+      // navigate('/login')
+      navigate('/auth')
+
       return
     }
     dispatch(addToCart({ productId: id, qty }))
@@ -34,7 +36,9 @@ const ProductDetails = () => {
   const handleBuyNow = () => {
     if (!userInfo) {
       toast.error('Please login to buy')
-      navigate('/login')
+      // navigate('/login')
+      navigate('/auth')
+
       return
     }
     navigate('/checkout', { state: { items: [{ productId: id, qty }] } })

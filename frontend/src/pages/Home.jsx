@@ -1,30 +1,32 @@
-// FILE: src/pages/Home.jsx
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import ProductCard from '../components/ProductCard'
+import { useEffect, useState } from "react";
 import API from "../utils/api";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await API.get('/api/products?limit=6')
-      setProducts(data.products)
-    }
-    fetchProducts()
-  }, [])
+    API.get("/api/products")
+      .then((res) => {
+        setProducts(Array.isArray(res.data.products) ? res.data.products : []);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div className="container p-4 mx-auto">
-      <h1 className="mb-4 text-3xl font-bold">Featured Products</h1>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
-      </div>
+      <h1 className="mb-4 text-2xl font-bold">All Products</h1>
+      {products.length === 0 ? (
+        <p>No products found</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {products.map((p) => (
+            <ProductCard key={p._id} product={p} />
+          ))}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

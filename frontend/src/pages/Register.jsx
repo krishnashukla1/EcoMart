@@ -14,39 +14,44 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(register({ name, email, password })).then(() => navigate('/'))
+    dispatch(register({ name, email, password }))
+      .unwrap()
+      .then(() => navigate('/'))
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-md">
-      <h1 className="text-3xl font-bold mb-4">Register</h1>
-      {error && <p className="text-red-600">{error}</p>}
-      <form onSubmit={handleSubmit}>
+    <div className="container max-w-md p-4 mx-auto">
+      <h1 className="mb-4 text-3xl font-bold">Register</h1>
+      {error && <p className="p-2 mb-4 text-sm text-red-700 bg-red-100 rounded">{error}</p>}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           placeholder="Name"
+          autoComplete="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-2 border mb-4"
+          className="w-full p-2 border rounded"
           required
         />
         <input
           type="email"
           placeholder="Email"
+          autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border mb-4"
+          className="w-full p-2 border rounded"
           required
         />
         <input
           type="password"
           placeholder="Password"
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border mb-4"
+          className="w-full p-2 border rounded"
           required
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded" disabled={loading}>
+        <button type="submit" className="w-full px-4 py-2 text-white rounded bg-emerald-600 hover:bg-emerald-700" disabled={loading}>
           {loading ? 'Loading...' : 'Register'}
         </button>
       </form>

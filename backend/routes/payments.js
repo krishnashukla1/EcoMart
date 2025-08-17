@@ -1,22 +1,3 @@
-// // FILE: routes/payments.js
-// // Payment endpoints are stubbed. Integrate with Razorpay/Stripe/PayPal in production.
-// const express9 = require('express');
-// const routerPayments = express9.Router();
-
-// // POST /api/payments - simple stub to 'pay' an order
-// // body: { orderId }
-// routerPayments.post('/', async (req, res) => {
-//   const { orderId } = req.body;
-//   if (!orderId) return res.status(400).json({ message: 'orderId required' });
-//   // In production: call gateway, verify signature, etc.
-//   // Here we return a fake success response for demo purposes.
-//   res.json({ success: true, orderId, message: 'Payment succeeded (stub). Integrate real gateway.' });
-// });
-
-// module.exports = routerPayments;
-
-//======================
-
 // FILE: routes/payments.js
 // Payment endpoints are stubbed. Integrate with Razorpay/Stripe/PayPal in production.
 

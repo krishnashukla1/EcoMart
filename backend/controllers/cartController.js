@@ -2,39 +2,6 @@
 const Cart = require('../models/Cart');
 const ProductModel = require('../models/Product');
 
-// GET /api/cart - Get user's cart
-// const getCart = async (req, res) => {
-//   try {
-//     let cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
-//     if (!cart) cart = { user: req.user._id, items: [] };
-//     res.json(cart);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
-
-// In your cartController.js
-// const getCart = async (req, res) => {
-//   try {
-//     const cart = await Cart.findOne({ user: req.user._id })
-//       .populate({
-//         path: 'items.product',
-//         select: '_id name price images stock' // Only return needed fields
-//       });
-    
-//     // Ensure consistent response format
-//     const items = cart.items.map(item => ({
-//       ...item.toObject(),
-//       product: item.product._id // Or keep full product if needed
-//     }));
-    
-//     res.json({ items });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// };
-
-
 // controllers/cartController.js
 const getCart = async (req, res) => {
   try {
@@ -170,24 +137,6 @@ const updateCartItem = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error: err.message });
   }
 };
-
-// // DELETE /api/cart/:itemId - Remove a single cart item
-// const removeCartItem = async (req, res) => {
-//   try {
-//     const cart = await Cart.findOne({ user: req.user._id });
-//     if (!cart) return res.status(404).json({ message: 'Cart not found' });
-
-//     const item = cart.items.id(req.params.itemId);
-//     if (!item) return res.status(404).json({ message: 'Cart item not found' });
-
-//     item.remove();
-//     await cart.save();
-//     await cart.populate('items.product');
-//     res.json(cart);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
 
 
 // DELETE /api/cart/:itemId - Remove a single cart item

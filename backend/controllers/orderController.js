@@ -1,107 +1,3 @@
-// // FILE: controllers/orderController.js
-// const OrderModel = require('../models/Order');
-// const CartModel = require('../models/Cart');
-// const ProductModel = require('../models/Product');
-
-// // POST /api/orders - Place an order
-// const placeOrder = async (req, res) => {
-//   try {
-//     const { shippingAddress, paymentMethod, items } = req.body;
-//     if (!shippingAddress || !paymentMethod) {
-//       return res.status(400).json({ message: 'shippingAddress & paymentMethod required' });
-//     }
-
-//     let orderItems = [];
-
-//     // If "buy now" items are provided
-//     if (items && Array.isArray(items) && items.length > 0) {
-//       for (const it of items) {
-//         const product = await ProductModel.findById(it.productId);
-//         if (!product) return res.status(404).json({ message: `Product ${it.productId} not found` });
-//         if (product.stock < it.qty) return res.status(400).json({ message: `Not enough stock for ${product.name}` });
-//         orderItems.push({ product: product._id, name: product.name, qty: it.qty, price: product.price });
-//       }
-//     } 
-//     // Else, use cart
-//     else {
-//       const cart = await CartModel.findOne({ user: req.user._id }).populate('items.product');
-//       if (!cart || cart.items.length === 0) return res.status(400).json({ message: 'Cart is empty' });
-
-//       for (const i of cart.items) {
-//         const product = await ProductModel.findById(i.product);
-//         if (!product) return res.status(404).json({ message: `Product ${i.product} not found` });
-//         if (product.stock < i.qty) return res.status(400).json({ message: `Not enough stock for ${product.name}` });
-//         orderItems.push({ product: product._id, name: product.name, qty: i.qty, price: i.price || product.price });
-//       }
-//     }
-
-//     // Totals
-//     const itemsPrice = orderItems.reduce((sum, it) => sum + it.price * it.qty, 0);
-//     const taxPrice = Math.round(itemsPrice * 0.05 * 100) / 100;
-//     const shippingPrice = itemsPrice > 500 ? 0 : 50;
-//     const totalPrice = Math.round((itemsPrice + taxPrice + shippingPrice) * 100) / 100;
-
-//     // Create order
-//     const order = await OrderModel.create({
-//       user: req.user._id,
-//       items: orderItems,
-//       shippingAddress,
-//       paymentMethod,
-//       itemsPrice,
-//       taxPrice,
-//       shippingPrice,
-//       totalPrice,
-//       status: paymentMethod === 'COD' ? 'Pending' : 'Paid'
-//     });
-
-//     // Decrement stock
-//     for (const it of orderItems) {
-//       await ProductModel.updateOne({ _id: it.product }, { $inc: { stock: -it.qty } });
-//     }
-
-//     // Clear cart if used
-//     if (!items || items.length === 0) {
-//       await CartModel.findOneAndUpdate({ user: req.user._id }, { items: [] });
-//     }
-
-//     res.status(201).json(order);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
-
-// // GET /api/orders - Get user's orders
-// const getUserOrders = async (req, res) => {
-//   try {
-//     const orders = await OrderModel.find({ user: req.user._id }).sort({ createdAt: -1 });
-//     res.json(orders);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
-
-// // GET /api/orders/:id - Get single order
-// const getOrderById = async (req, res) => {
-//   try {
-//     const order = await OrderModel.findById(req.params.id).populate('items.product');
-//     if (!order) return res.status(404).json({ message: 'Order not found' });
-//     if (order.user.toString() !== req.user._id.toString()) {
-//       return res.status(403).json({ message: 'Access denied' });
-//     }
-//     res.json(order);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
-
-// module.exports = {
-//   placeOrder,
-//   getUserOrders,
-//   getOrderById
-// };
-
-
-//===================
 
 // FILE: controllers/orderController.js
 const OrderModel = require('../models/Order');
@@ -110,71 +6,6 @@ const ProductModel = require('../models/Product');
 const mongoose4 = require('mongoose');
 
 // POST /api/orders - Place an order
-// const placeOrder = async (req, res) => {
-//   try {
-//     const { shippingAddress, paymentMethod, items } = req.body;
-//     if (!shippingAddress || !paymentMethod) {
-//       return res.status(400).json({ message: 'shippingAddress & paymentMethod required' });
-//     }
-
-//     let orderItems = [];
-
-//     // If "buy now" items are provided
-//     if (items && Array.isArray(items) && items.length > 0) {
-//       for (const it of items) {
-//         const product = await ProductModel.findById(it.productId);
-//         if (!product) return res.status(404).json({ message: `Product ${it.productId} not found` });
-//         if (product.stock < it.qty) return res.status(400).json({ message: `Not enough stock for ${product.name}` });
-//         orderItems.push({ product: product._id, name: product.name, qty: it.qty, price: product.price });
-//       }
-//     } 
-//     // Else, use cart
-//     else {
-//       const cart = await CartModel.findOne({ user: req.user._id }).populate('items.product');
-//       if (!cart || cart.items.length === 0) return res.status(400).json({ message: 'Cart is empty' });
-
-//       for (const i of cart.items) {
-//         const product = await ProductModel.findById(i.product);
-//         if (!product) return res.status(404).json({ message: `Product ${i.product} not found` });
-//         if (product.stock < i.qty) return res.status(400).json({ message: `Not enough stock for ${product.name}` });
-//         orderItems.push({ product: product._id, name: product.name, qty: i.qty, price: i.price || product.price });
-//       }
-//     }
-
-//     // Totals
-//     const itemsPrice = orderItems.reduce((sum, it) => sum + it.price * it.qty, 0);
-//     const taxPrice = Math.round(itemsPrice * 0.05 * 100) / 100;
-//     const shippingPrice = itemsPrice > 500 ? 0 : 50;
-//     const totalPrice = Math.round((itemsPrice + taxPrice + shippingPrice) * 100) / 100;
-
-//     // Create order
-//     const order = await OrderModel.create({
-//       user: req.user._id,
-//       items: orderItems,
-//       shippingAddress,
-//       paymentMethod,
-//       itemsPrice,
-//       taxPrice,
-//       shippingPrice,
-//       totalPrice,
-//       status: paymentMethod === 'COD' ? 'Pending' : 'Paid'
-//     });
-
-//     // Decrement stock
-//     for (const it of orderItems) {
-//       await ProductModel.updateOne({ _id: it.product }, { $inc: { stock: -it.qty } });
-//     }
-
-//     // Clear cart if used
-//     if (!items || items.length === 0) {
-//       await CartModel.findOneAndUpdate({ user: req.user._id }, { items: [] });
-//     }
-
-//     res.status(201).json(order);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
 
 const placeOrder = async (req, res) => {
   try {
@@ -312,7 +143,6 @@ const placeOrder = async (req, res) => {
   }
 };
 
-
 // GET /api/orders - Get user's orders
 const getUserOrders = async (req, res) => {
   try {
@@ -323,20 +153,6 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-// GET /api/orders/:id - Get single order
-// const getOrderById = async (req, res) => {
-//   try {
-//     const order = await OrderModel.findById(req.params.id).populate('items.product');
-
-//     if (!order) return res.status(404).json({ message: 'Order not found' });
-//     if (order.user.toString() !== req.user._id.toString()) {
-//       return res.status(403).json({ message: 'Access denied' });
-//     }
-//     res.json(order);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Server Error', error: err.message });
-//   }
-// };
 // FILE: controllers/orderController.js
 const getOrderById = async (req, res) => {
   try {
