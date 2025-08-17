@@ -3,31 +3,73 @@
 
 // FILE: routes/payments.js
 const express = require('express');
+const Razorpay = require('razorpay');
 const routerPayments = express.Router();
 
-// POST /api/payments - create a new payment
-routerPayments.post('/', async (req, res) => {
-  const { orderId, amount, currency } = req.body;
-
-  if (!orderId || !amount || !currency) {
-    return res.status(400).json({ message: 'orderId, amount & currency are required' });
-  }
-
-  const newPayment = {
-    paymentId: Math.floor(Math.random() * 1000000).toString(), // random ID for stub
-    orderId,
-    amount,
-    currency,
-    status: 'pending',
-    createdAt: new Date().toISOString()
-  };
-
-  res.status(201).json({
-    success: true,
-    data: newPayment,
-    message: 'Payment created successfully (stub). Integrate real gateway.',
-  });
+// ⚡ Use your Razorpay Test Keys
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID || "rzp_test_xxxxxxxx",
+  key_secret: process.env.RAZORPAY_KEY_SECRET || "xxxxxxxx",
 });
+
+
+
+// POST /api/payments - create a new payment
+// routerPayments.post('/', async (req, res) => {
+//   const { orderId, amount, currency } = req.body;
+
+//   if (!orderId || !amount || !currency) {
+//     return res.status(400).json({ message: 'orderId, amount & currency are required' });
+//   }
+
+//   const newPayment = {
+//     paymentId: Math.floor(Math.random() * 1000000).toString(), // random ID for stub
+//     orderId,
+//     amount,
+//     currency,
+//     status: 'pending',
+//     createdAt: new Date().toISOString()
+//   };
+
+//   res.status(201).json({
+//     success: true,
+//     data: newPayment,
+//     message: 'Payment created successfully (stub). Integrate real gateway.',
+//   });
+// });
+
+
+
+// POST /api/payments - create Razorpay order
+routerPayments.post('/', async (req, res) => {
+  try {
+    const { amount, currency } = req.body;
+
+    if (!amount || !currency) {
+      return res.status(400).json({ message: 'amount & currency are required' });
+    }
+
+    const options = {
+      amount: amount * 100, // convert to paise
+      currency,
+      receipt: `order_rcptid_${Date.now()}`,
+    };
+
+    const order = await razorpay.orders.create(options);
+
+    res.json({
+      success: true,
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      message: 'Razorpay order created successfully',
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+
 
 // GET /api/payments - get all payments (stub)
 routerPayments.get('/', async (req, res) => {
