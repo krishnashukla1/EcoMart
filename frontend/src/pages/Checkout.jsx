@@ -85,6 +85,13 @@ const Checkout = () => {
   const shippingPrice = itemsPrice > 500 ? 0 : 50
   const totalPrice = (itemsPrice + Number(taxPrice) + shippingPrice).toFixed(2)
 
+  useEffect(() => {
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  script.async = true;
+  document.body.appendChild(script);
+}, []);
+
   return (
     <div className="min-h-screen px-4 py-8 bg-gray-50">
       <div className="max-w-4xl mx-auto">

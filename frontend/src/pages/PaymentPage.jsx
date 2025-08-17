@@ -1,3 +1,5 @@
+
+//-----------------
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -87,3 +89,76 @@ export default function PaymentPage() {
     </div>
   );
 }
+
+/*
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import API from "../utils/api";
+
+const Payment = ({ orderId, config }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  const handlePayment = async () => {
+    const orderRes = await API.post("/api/payments/order", { orderId }, config);
+    const { amount, id: razorpayOrderId, currency } = orderRes.data;
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY, // Razorpay key
+      amount: amount.toString(),
+      currency,
+      order_id: razorpayOrderId,
+      name: "Your Company",
+      description: "Payment for order",
+      handler: async function (response) {
+        const verifyRes = await API.post(
+          "/api/payments/verify",
+          {
+            orderId,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature,
+          },
+          config
+        );
+
+        if (verifyRes.data.success) {
+          await API.put(
+            `/api/orders/${orderId}/status`,
+            { status: "Paid" },
+            config
+          );
+          navigate(
+            "/orders",
+            { state: { paymentSuccess: true, paidOrderId: orderId }, replace: true }
+          );
+        } else {
+          toast.error("Payment verification failed");
+        }
+      },
+      theme: { color: "#3399cc" },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  return (
+    <div>
+      <h1>Complete Payment</h1>
+      <button onClick={handlePayment} className="px-4 py-2 text-white bg-blue-500 rounded">
+        Pay Now
+      </button>
+    </div>
+  );
+};
+
+export default Payment;
+*/
